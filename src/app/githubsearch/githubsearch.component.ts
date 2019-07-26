@@ -18,15 +18,17 @@ export class GithubsearchComponent implements OnInit {
   ngOnInit() {
   }
 
-  hasSearched = false;
+ 
 
-  getUserRepos() {
+  getUserRepos(q: string) {
 
-    this.data.getRepos().subscribe(
-      data => this.repos$ = data 
-    );
-    
-    this.hasSearched = true;
+    if (q !== "") {
+
+      this.data.getUsersRepos(q).subscribe(
+        data => this.repos$ = data 
+      );  
+
+    }
 
 }
 

@@ -2,7 +2,7 @@
   <span class="body-text-span">
 
     <input #input type="text" placeholder="userID" class="form-control">
-    <button (click)="getUserRepos()" class="btn btn-primary" role="button">Search</button>
+    <button (click)="getUserRepos(input.value)" class="btn btn-primary" role="button">Search</button>
   </span>
   
         <mat-table #table [dataSource]="repos$?.items" class="mat-elevation-z8" *ngIf="repos$?.items.length > 0" >

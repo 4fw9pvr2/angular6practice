@@ -1,0 +1,21 @@
+.footer-background {
+
+    background: rgba(38, 128, 235, 0.34);
+    display: table;
+    height: 100%;
+    width: 100%;
+
+    h1 {
+
+        padding-left: 40px; 
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+}
+footer {
+
+    height: 25vh;
+    display: grid;
+
+}

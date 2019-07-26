@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body {
+    height: 100vh;
+    width:100%;
+    margin: 0; 
+}
+#container {
+    display: grid;
+    //grid-template-columns: 70px auto;
+    height: 100%;
+}
+#content {
+    display: grid;
+    //grid-template-columns: 70px auto;
+    height: 60vh;
+}
+#content:nth-child(2) {
+
+    background: rgba(18, 116, 228, 0.45);
+}
+
+router-outlet {
+
+    display: none;
+}

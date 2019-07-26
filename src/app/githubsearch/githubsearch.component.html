@@ -1,0 +1,40 @@
+<div class="body-container">
+  <span class="body-text-span">
+
+    <input #input type="text" placeholder="userID" class="form-control">
+    <button (click)="getUserRepos()" class="btn btn-primary" role="button">Search</button>
+  </span>
+  
+        <mat-table #table [dataSource]="repos$?.items" class="mat-elevation-z8" *ngIf="repos$?.items.length > 0" >
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- URL Column -->
+        <ng-container matColumnDef="url">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> URL </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let repository"> {{repository.url}} </mat-cell>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let repository"> {{repository.name}} </mat-cell>
+        </ng-container>
+      
+        <!-- Date Created Column -->
+        <ng-container matColumnDef="created_at">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Date Created </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let repository"> {{repository.created_at}} </mat-cell>
+        </ng-container>
+    
+
+      
+        <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+
+
+
+
+</div>

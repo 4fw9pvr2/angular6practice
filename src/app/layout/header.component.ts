@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   isavailable = true;
   
   myClickFunction(event) { 
-    //just added console.log which will display the event details in browser on click of the button.
+    
     this.isavailable = false;
     
  }

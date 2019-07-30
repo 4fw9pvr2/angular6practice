@@ -2,35 +2,29 @@
   <div class="container header-background">
     <h1>Angular 6 Practice</h1> 
   </div>
-  <table>
-    <tr>
-  
-
-        <th><a mat-stroked-button class="header-link" routerLink="" [class.activated]="currentUrl == '/'">
-          HOME
-        </a></th>
-        <th><a mat-stroked-button class="header-link" routerLink="githubsearch" [class.activated]="currentUrl == '/githubsearch'">
-          GitHub Search
-        </a></th>
-        <th><a mat-stroked-button class="header-link" routerLink="option2" [class.activated]="currentUrl == '/option2'">
-          Option 2
-        </a></th>
-        <th><a mat-stroked-button class="header-link" routerLink="option3" [class.activated]="currentUrl == '/option3'">
-          Option 3
-        </a></th>
-        <th><a mat-stroked-button class="header-link" routerLink="option4" [class.activated]="currentUrl == '/option4'">
-          Option 4
-        </a></th>
-        <th><a mat-stroked-button class="header-link" routerLink="option5" [class.activated]="currentUrl == '/option5'">
-          Option 5
-        </a></th>        
-        <th><a mat-stroked-button class="header-link" routerLink="option6" [class.activated]="currentUrl == '/option6'">
-          Option 6
-        </a></th>
-    
-
-  </tr>
-</table>
+    <div class="nav-bar">
+          <div><a mat-stroked-button class="header-link" routerLink="" [class.activated]="currentUrl == '/'">
+            HOME
+          </a></div>
+          <div><a mat-stroked-button class="header-link" routerLink="githubsearch" [class.activated]="currentUrl == '/githubsearch'">
+            GitHub Search
+          </a></div>
+          <div><a mat-stroked-button class="header-link" routerLink="option2" [class.activated]="currentUrl == '/option2'">
+            Option 2
+          </a></div>
+          <div><a mat-stroked-button class="header-link" routerLink="option3" [class.activated]="currentUrl == '/option3'">
+            Option 3
+          </a></div>
+          <div><a mat-stroked-button class="header-link" routerLink="option4" [class.activated]="currentUrl == '/option4'">
+            Option 4
+          </a></div>
+          <div><a mat-stroked-button class="header-link" routerLink="option5" [class.activated]="currentUrl == '/option5'">
+            Option 5
+          </a></div>        
+          <div><a mat-stroked-button class="header-link" routerLink="option6" [class.activated]="currentUrl == '/option6'">
+            Option 6
+          </a></div>
+    </div>
 <div *ngIf = "isavailable">
     <div class="announcement-banner" >
 

@@ -4,8 +4,10 @@
     <input #input type="text" placeholder="userID" class="form-control">
     <button (click)="getUserRepos(input.value)" class="btn btn-primary" role="button">Search</button>
   </span>
-  
-  <div class="mat-elevation-z8" *ngIf="dataSource?.filteredData.length > 0" >
+  <div *ngIf="!noError">
+      <span class="body-text-span">{{errorMessage}}</span>
+    </div>  
+  <div class="mat-elevation-z8" *ngIf="dataSource?.filteredData.length > 0 && noError" >
         <mat-table #table [dataSource]="dataSource"  >
               
         <!-- URL Column -->
@@ -32,4 +34,7 @@
 
       <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
+    <div *ngIf="dataSource?.filteredData.length === 0 && noError" >
+      No repositories listed for user
+      </div>
 </div>

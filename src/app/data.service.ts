@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, EMPTY, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +15,32 @@ export class DataService {
   }
 
   getUsersRepos(userId) {
-    return this.http.get('https://api.github.com/search/repositories?q=user:'+userId)
+    return this.http.get('https://api.github.com/search/repositories?q=user:'+userId).pipe(
+
+   catchError(this.handleError)
+
+  );
   }
 
   getRepo(repositoryurl) {
     return this.http.get(repositoryurl)
   }
+
+
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error.message ===  "Validation Failed") {
+      return throwError(
+        error.error.errors["0"].message);
+    
+      } else {
+
+    return throwError(
+      'Something bad happened; please try again later.');
+    }
+  };
+
+
 
 
 }

@@ -12,6 +12,8 @@ export class GithubsearchComponent implements OnInit {
 
   displayedColumns= ["url", "name", "created_at"];
   dataSource;
+  noError = true;
+  errorMessage;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -29,6 +31,7 @@ export class GithubsearchComponent implements OnInit {
       this.data.getUsersRepos(q).subscribe(
         data => {
           this.dataSource = new MatTableDataSource(data["items"]);
+          this.noError = true;
           /** using detectChanges otherwise this.paginator will remain
            * undefined since <mat-paginator> 
            * is inside a container that has an *ngIf that only renders 
@@ -36,7 +39,13 @@ export class GithubsearchComponent implements OnInit {
            */
           this.cdr.detectChanges();
           this.dataSource.paginator = this.paginator;     
-        });  
+        }, err => {
+
+          this.noError = false;
+          this.errorMessage = err;          
+          this.cdr.detectChanges();
+
+      });  
 
     }
 

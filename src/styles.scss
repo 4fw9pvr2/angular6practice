@@ -110,7 +110,10 @@ footer {
 
     display: grid;
     grid-template-columns: 3fr 1fr;
-
+    grid-template-rows: 1fr 5fr;
+    grid-template-areas:    "userinput  searchbutton"
+                            "validationerror validationerror"
+   
  }
 
  .form-group {
@@ -119,4 +122,20 @@ footer {
 
  }
 
+ .user-input {
+ 
+    grid-area: userinput;
+    display: grid;
+    width: 180px;
+    height: 22px;
+  }
 
+.validation-error {
+    grid-area: validationerror;
+    width: 240px;
+}
+ 
+.search-button {
+    grid-area: searchbutton;
+    height: 22px;
+  }

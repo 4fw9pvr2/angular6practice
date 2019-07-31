@@ -1,23 +1,24 @@
 <div class="body-container">
   <span class="body-text-span">
     <form (ngSubmit)="onSubmit()" #userForm="ngForm" class="form-userid-input">
-      <div class="form-group">
+      <div class="user-input">
         <input #input type="text" placeholder="userID" class="form-control" id="userID"
         required maxlength="39" pattern="^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$" [(ngModel)]="model.userID" name="userID" #userID="ngModel">
-        <div *ngIf="userID.invalid && (userID.dirty || userID.touched)"
-        class="alert alert-danger">
-    
-      <div *ngIf="userID.errors.required">
-        UserID is required.
+
       </div>
-      <div *ngIf="userID.errors.pattern">
-        UserID may only contain alphanumeric characters or hyphens, 
-        cannot have multiple consecutive hyphens, 
-        and cannot begin or end with a hyphen.
-      </div>  
+      <div *ngIf="userID.invalid && (userID.dirty || userID.touched)"
+      class="alert alert-danger validation-error">
+  
+    <div *ngIf="userID.errors.required">
+      UserID is required.
     </div>
-      </div>
-    <div>
+    <div *ngIf="userID.errors.pattern">
+      UserID may only contain alphanumeric characters or hyphens, 
+      cannot have multiple consecutive hyphens, 
+      and cannot begin or end with a hyphen.
+    </div>  
+  </div>
+    <div class="search-button">
       <button type="submit" (click)="getUserRepos(input.value)" class="btn btn-primary" 
       role="button" [disabled]="!userForm.form.valid">Search</button>
     </div>

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef   } from '@angular/core
 import { DataService } from '../data.service';
 import { Observable } from 'rxjs';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-githubsearch',
@@ -14,6 +15,11 @@ export class GithubsearchComponent implements OnInit {
   dataSource;
   noError = true;
   errorMessage;
+  model = new User();
+
+  submitted = false;
+ 
+  onSubmit() { this.submitted = true; }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 

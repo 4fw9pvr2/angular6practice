@@ -20,11 +20,15 @@ export class GithubsearchComponent implements OnInit {
   noError = true;
   notCommitTable = true;
   errorMessage;
-  model = new User();
-  submitted = false;
+  user = new User();
   commits: Commit[] = [];
- 
-  onSubmit() { this.submitted = true; }
+
+
+  onSubmit() { 
+
+    this.getUserRepos(this.user.userID); 
+
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -35,11 +39,11 @@ export class GithubsearchComponent implements OnInit {
   }
 
 
-  getUserRepos(q: string) {
+  getUserRepos(userID: string) {
 
-    if (q !== "") {
+    if (userID !== "") {
 
-      this.data.getUsersRepos(q).subscribe(
+      this.data.getUsersRepos(userID).subscribe(
         data => {
           this.dataSource = new MatTableDataSource(data);
           this.noError = true;
@@ -49,7 +53,7 @@ export class GithubsearchComponent implements OnInit {
            * is inside a container that has an *ngIf that only renders 
            * when data is loaded
            */
-          this.model.repositories = data;
+          this.user.repositories = data;
           this.cdr.detectChanges();
           this.dataSource.paginator = this.paginator;  
 
@@ -65,11 +69,11 @@ export class GithubsearchComponent implements OnInit {
 
 }
 
-getRepoCommits(q: string) {
+getRepoCommits(repository: string) {
 
-  if (q !== "") {
+  if (repository !== "") {
 
-    this.data.getRepoCommits(q, this.model.userID).subscribe(
+    this.data.getRepoCommits(repository, this.user.userID).subscribe(
       data => {
         this.commitDataSource = new MatTableDataSource(data);
         this.notCommitTable = false;

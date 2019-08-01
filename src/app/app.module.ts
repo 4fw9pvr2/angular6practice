@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  }   from '@angular/forms';
+import {MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { LayoutModule } from './layout/layout.module';
 
@@ -37,7 +38,10 @@ import { Option6Component } from './option6/option6.component';
     BrowserAnimationsModule,
     LayoutModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule ,
+    MatFormFieldModule,
+    MatInputModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

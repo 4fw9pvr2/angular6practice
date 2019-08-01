@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Adapter } from './adapter';
 
 
-export class Repository {
+export class Commit {
 
     constructor(
-        public name:string,
+        public email:string,
         public created_at:string,
         public url:string
       ) { }
@@ -16,13 +16,14 @@ export class Repository {
 @Injectable({
     providedIn: 'root'
 })
-export class RepositoryAdapter implements Adapter<Repository> {
+export class CommitAdapter implements Adapter<Commit> {
 
-  adapt(item: any): Repository {
-    return new Repository(
-        item.name,
-        item.created_at,
+  adapt(item: any): Commit {
+    return new Commit(
+        item.commit.author.email,
+        item.commit.author.date,
         item.url,
+
     );
   }
 }

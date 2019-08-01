@@ -27,7 +27,7 @@
   <div *ngIf="!noError">
       <span class="body-text-span">{{errorMessage}}</span>
     </div>  
-  <div class="mat-elevation-z8" *ngIf="dataSource?.filteredData.length > 0 && noError" >
+  <div class="mat-elevation-z8" *ngIf="dataSource?.filteredData.length > 0 && noError && notCommitTable" >
         <mat-table #table [dataSource]="dataSource"  >
               
         <!-- URL Column -->
@@ -39,7 +39,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <mat-header-cell mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let repository"> {{repository.name}} </mat-cell>
+          <mat-cell mat-cell *matCellDef="let repository" (click)="getRepoCommits(repository.name)"> {{repository.name}}</mat-cell>
         </ng-container>
       
         <!-- Date Created Column -->
@@ -57,4 +57,31 @@
     <div *ngIf="dataSource?.filteredData.length === 0 && noError" >
       No repositories listed for user
       </div>
+      <div class="mat-elevation-z8" *ngIf="commitDataSource?.filteredData.length > 0 && !notCommitTable" >
+        <mat-table #table [dataSource]="commitDataSource"  >
+              
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let commit"> {{commit.email}} </mat-cell>
+        </ng-container>
+      
+        <!-- Date Created Column -->
+        <ng-container matColumnDef="created_at">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Date Created </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let commit" > {{commit.created_at}}</mat-cell>
+        </ng-container>
+      
+        <!-- URL Column -->
+        <ng-container matColumnDef="url">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> URL </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let commit" class="word-break"> {{commit.url}} </mat-cell>
+        </ng-container>
+      
+        <mat-header-row  *matHeaderRowDef="commitDisplayedColumns"></mat-header-row>
+        <mat-row  *matRowDef="let row; columns: commitDisplayedColumns;"></mat-row>
+      </mat-table>
+
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
 </div>

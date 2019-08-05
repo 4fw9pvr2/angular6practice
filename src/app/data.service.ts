@@ -43,7 +43,11 @@ export class DataService {
       return throwError(
         error.error.errors["0"].message);
     
-      } else {
+      } else if (error.error.message ===  "Git Repository is empty.") {
+        return throwError(
+          "Git Repository is empty.");
+
+      }else {
 
     return throwError(
       'Something bad happened; please try again later.');

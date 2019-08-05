@@ -25,13 +25,10 @@
             Option 6
           </a></div>
     </div>
-<div *ngIf = "isavailable">
-    <div class="announcement-banner" >
-
-        <div >
-            Web application Announcement click on X on the right side to make it go away
-            <button (click)="myClickFunction($event)" ><span >x</span></button>
-        </div>
-    </div>
-</div>
+  <div *ngIf = "isavailable" class="announcement-banner" >
+      <div >
+          Web application Announcement click on X on the right side to make it go away
+          <button (click)="myClickFunction($event)" ><span >x</span></button>
+      </div>
+  </div>
 </header>

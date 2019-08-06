@@ -24,9 +24,9 @@ export class DataService {
       );
   }
 
-  getRepoCommits(name, userId): Observable<Commit[]>{
+  getRepoCommits(repoName, userId): Observable<Commit[]>{
 
-    let endPoint = 'https://api.github.com/repos/' + userId + '/' + name + '/commits';
+    let endPoint = 'https://api.github.com/repos/' + userId + '/' + repoName + '/commits';
     return this.http.get(endPoint).pipe(
       map((data: any[]) => data.map(item => this.comadapter.adapt(item))),
       catchError(this.handleError)

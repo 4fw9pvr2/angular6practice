@@ -27,10 +27,13 @@
 <div *ngIf="dataSource?.filteredData.length > 0 && noError ">
   <mat-card  *ngFor="let repository of user.repositories; let i=index" class="repo-card" (click)="getRepoCommits(repository.name); !selection.isSelected(repository.name)? selection.toggle(repository.name) : false" [ngStyle]="{'border': selection.isSelected(repository.name)? '3px solid #2340d1':'none'}" >
       <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>{{repository.name}}</mat-card-title>
-        <mat-card-subtitle>{{repository.created_at}}</mat-card-subtitle>
+        <mat-card-subtitle>by {{repository.ownerName}}</mat-card-subtitle>
+
       </mat-card-header>
+      
+        <img mat-card-avatar class="repo-card-image" [src]="repository.avatarUrl" alt="User Avatar">
+      
   </mat-card>
 </div>
 
@@ -49,22 +52,28 @@
         <mat-toolbar><span class="underline-text">Commits </span> &#160; Branches   </mat-toolbar> 
         <mat-table #table [dataSource]="commitDataSource"  >
               
-        <!-- Email Column -->
-        <ng-container matColumnDef="email">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let commit"> {{commit.email}} </mat-cell>
+        <!-- Author Column -->
+        <ng-container matColumnDef="author">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Author </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let commit"> {{commit.name}} </mat-cell>
         </ng-container>
       
+        <!-- Message Column -->
+        <ng-container matColumnDef="message">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Message </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let commit" class="word-break"> {{commit.message | slice:0:100}} </mat-cell>
+        </ng-container>
+
         <!-- Date Created Column -->
         <ng-container matColumnDef="created_at">
           <mat-header-cell mat-header-cell *matHeaderCellDef> Date Created </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let commit" > {{commit.created_at}}</mat-cell>
+          <mat-cell mat-cell *matCellDef="let commit" > {{commit.created_at | date }}</mat-cell>
         </ng-container>
       
-        <!-- URL Column -->
-        <ng-container matColumnDef="url">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> URL </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let commit" class="word-break"> {{commit.url}} </mat-cell>
+        <!-- CommitID Column -->
+        <ng-container matColumnDef="commitID">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Commit </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let commit" > {{commit.commitID | slice:0:7}} </mat-cell>
         </ng-container>
       
         <mat-header-row  *matHeaderRowDef="commitDisplayedColumns"></mat-header-row>

@@ -13,8 +13,8 @@ import { Commit} from '../models/commit';
 })
 export class GithubsearchComponent implements OnInit {
 
-  displayedColumns= [ "name", "url","created_at"];
-  commitDisplayedColumns= ["email", "created_at", "url"];
+  displayedColumns= [  "owner", "name", "created_at"];
+  commitDisplayedColumns= ["author", "message", "created_at", "commitID"];
   dataSource;
   commitDataSource;
   noError = true;

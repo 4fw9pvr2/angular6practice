@@ -5,9 +5,10 @@ import { Adapter } from './adapter';
 export class Commit {
 
     constructor(
-        public email:string,
-        public created_at:string,
-        public url:string
+        public name:string,
+        public created_at:Date,
+        public message:string,
+        public commitID:string
       ) { }
 
 
@@ -20,9 +21,10 @@ export class CommitAdapter implements Adapter<Commit> {
 
   adapt(item: any): Commit {
     return new Commit(
-        item.commit.author.email,
+        item.commit.author.name,
         item.commit.author.date,
-        item.url,
+        item.commit.message,
+        item.sha
 
     );
   }

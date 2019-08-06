@@ -15,8 +15,7 @@ import { Commit} from '../models/commit';
 export class Option2Component implements OnInit {
 
 
-    displayedColumns= [ "name", "url","created_at"];
-    commitDisplayedColumns= ["email", "created_at", "url"];
+    commitDisplayedColumns= ["author", "message", "created_at", "commitID"];
     dataSource;
     commitDataSource;
     noError = true;

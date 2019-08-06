@@ -6,8 +6,9 @@ export class Repository {
 
     constructor(
         public name:string,
-        public created_at:string,
-        public url:string,
+        public created_at:string,        
+        public ownerName:string,
+        public avatarUrl:string
       ) { }
 
 
@@ -22,7 +23,8 @@ export class RepositoryAdapter implements Adapter<Repository> {
     return new Repository(
         item.name,
         item.created_at,
-        item.url,
+        item.owner.login,
+        item.owner.avatar_url
     );
   }
 }

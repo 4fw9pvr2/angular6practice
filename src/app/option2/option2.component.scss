@@ -51,14 +51,16 @@ table {
 .repo-card {
 
   margin: 10px 0px;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+}
+.repo-card-image {
+
+  height: 50px;
+  width: 50px;
 
 }
-
-.example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: cover;
-}
-
 
 .table-container {
 

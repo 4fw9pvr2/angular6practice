@@ -1,3 +1,77 @@
 <div class="body-container">
-  <span class="body-text-span"><h1>Body Option 2</h1> </span>
+  <div class ="repository-col">
+  <span class="body-text-span">
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm" class="form-userid-input-git-app">
+      <div class="user-input-git-app">
+        <mat-form-field appearance="outline">
+          <input matInput #input type="text" placeholder="userID" class="form-control" id="userID" 
+          required maxlength="39" pattern="^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$" [(ngModel)]="user.userID" name="userID" #userID="ngModel">
+          <mat-icon matSuffix>person</mat-icon> 
+          <mat-error *ngIf="userID?.errors?.required"> 
+            UserID is required.
+          </mat-error>
+          <mat-error *ngIf="userID.errors?.pattern">
+            UserID may only contain alphanumeric characters or hyphens, 
+            cannot have multiple consecutive hyphens, 
+            and cannot begin or end with a hyphen.
+          </mat-error>       
+        </mat-form-field>
+      </div>
+    <div class="search-button-git-app">
+      <button mat-stroked-button type="submit" class="btn btn-primary" 
+      role="button" [disabled]="!userForm.form.valid">Search</button>
+    </div>
+    </form>
+  </span>
+
+<div *ngIf="dataSource?.filteredData.length > 0 && noError ">
+  <mat-card  *ngFor="let repository of user.repositories; let i=index" class="repo-card" (click)="getRepoCommits(repository.name); !selection.isSelected(repository.name)? selection.toggle(repository.name) : false" [ngStyle]="{'border': selection.isSelected(repository.name)? '3px solid #2340d1':'none'}" >
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{repository.name}}</mat-card-title>
+        <mat-card-subtitle>{{repository.created_at}}</mat-card-subtitle>
+      </mat-card-header>
+  </mat-card>
+</div>
+
+</div>
+  <div *ngIf="!noError">
+      <span class="body-text-span">{{errorMessage}}</span>
+    </div>  
+    <div class ="table-container">
+
+    <div *ngIf="dataSource?.filteredData.length === 0 && noError" >
+      No repositories listed for user
+      </div>
+      <h1 *ngIf="commitDataSource?.filteredData.length > 0 && !notCommitTable">{{repositoryTitle}}</h1>
+      <div class="mat-elevation-z8" *ngIf="commitDataSource?.filteredData.length > 0 && !notCommitTable" >
+       <h1></h1>
+        <mat-toolbar><span class="underline-text">Commits </span> &#160; Branches   </mat-toolbar> 
+        <mat-table #table [dataSource]="commitDataSource"  >
+              
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let commit"> {{commit.email}} </mat-cell>
+        </ng-container>
+      
+        <!-- Date Created Column -->
+        <ng-container matColumnDef="created_at">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Date Created </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let commit" > {{commit.created_at}}</mat-cell>
+        </ng-container>
+      
+        <!-- URL Column -->
+        <ng-container matColumnDef="url">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> URL </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let commit" class="word-break"> {{commit.url}} </mat-cell>
+        </ng-container>
+      
+        <mat-header-row  *matHeaderRowDef="commitDisplayedColumns"></mat-header-row>
+        <mat-row  *matRowDef="let row; columns: commitDisplayedColumns;"></mat-row>
+      </mat-table>
+
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
 </div>

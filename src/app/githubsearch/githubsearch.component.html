@@ -31,7 +31,7 @@
         <!-- URL Column -->
         <ng-container matColumnDef="url">
           <mat-header-cell mat-header-cell *matHeaderCellDef> URL </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let repository"> {{repository.url}} </mat-cell>
+          <mat-cell mat-cell *matCellDef="let repository" class="word-break"> {{repository.url}} </mat-cell>
         </ng-container>
       
         <!-- Name Column -->

@@ -33,11 +33,6 @@ html, body {
   }
 
 
-.content:nth-child(2) {
-
-    background: rgba(18, 116, 228, 0.45);
-}
-
 router-outlet {
 
     display: none;
@@ -111,6 +106,17 @@ footer {
     display: grid;
     grid-template-columns: 3fr 1fr;
     grid-template-rows: 1fr 5fr;
+    justify-items: center;
+    grid-template-areas:    "userinput  searchbutton"
+                            "validationerror validationerror"
+   
+ }
+
+ .form-userid-input-git-app {
+
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas:    "userinput  searchbutton"
                             "validationerror validationerror"
    
@@ -138,4 +144,26 @@ footer {
 .search-button {
     grid-area: searchbutton;
     height: 22px;
+  }
+
+.user-input-git-app {
+ 
+    grid-area: userinput;
+    display: grid;
+
+  }
+
+
+
+
+.search-button-git-app {
+    grid-area: searchbutton;
+ 
+    button {
+
+        height: 65%;
+        width: 80%;
+        float: right;
+    }
+
   }

@@ -7,7 +7,7 @@ export class Repository {
     constructor(
         public name:string,
         public created_at:string,
-        public url:string
+        public url:string,
       ) { }
 
 

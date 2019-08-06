@@ -4,7 +4,7 @@ import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule  }   from '@angular/forms';
-import {MatFormFieldModule, MatInputModule, MatToolbarModule } from '@angular/material';
+import {MatFormFieldModule, MatInputModule, MatToolbarModule, MatIconModule } from '@angular/material';
 
 import { LayoutModule } from './layout/layout.module';
 
@@ -42,7 +42,8 @@ import { Option6Component } from './option6/option6.component';
     ReactiveFormsModule ,
     MatFormFieldModule,
     MatInputModule,
-    MatToolbarModule 
+    MatToolbarModule,
+    MatIconModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

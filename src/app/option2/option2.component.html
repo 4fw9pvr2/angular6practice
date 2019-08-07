@@ -4,28 +4,37 @@
     <form (ngSubmit)="onSubmit()" #userForm="ngForm" class="form-userid-input-git-app">
       <div class="user-input-git-app">
         <mat-form-field appearance="outline">
-          <input matInput #input type="text" placeholder="userID" class="form-control" id="userID" 
-          required maxlength="39" pattern="^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$" [(ngModel)]="user.userID" name="userID" #userID="ngModel">
+          <input matInput #input type="text" placeholder="userID" class="form-control" id="userID"  [readonly]="(dataSource?.filteredData.length > 0 && noRepoError && gotRepos)"
+          required maxlength="39" pattern="^[a-zA-Z\d](?:[a-zA-Z\d]|-(?=[a-zA-Z\d])){0,38}$" [(ngModel)]="user.userID" name="userID" #userID="ngModel" >
           <mat-icon matSuffix>person</mat-icon> 
-          <mat-error *ngIf="userID?.errors?.required"> 
-            UserID is required.
-          </mat-error>
-          <mat-error *ngIf="userID.errors?.pattern">
-            UserID may only contain alphanumeric characters or hyphens, 
-            cannot have multiple consecutive hyphens, 
-            and cannot begin or end with a hyphen.
-          </mat-error>       
+     
         </mat-form-field>
+        <mat-error *ngIf="userID?.errors?.required && (userID.dirty || userID.touched)"> 
+          UserID is required.
+        </mat-error>
+        <mat-error *ngIf="userID.errors?.pattern && (userID.dirty || userID.touched)">
+          UserID may only contain alphanumeric characters or hyphens, 
+          cannot have multiple consecutive hyphens, 
+          and cannot begin or end with a hyphen.
+        </mat-error>  
       </div>
     <div class="search-button-git-app">
       <button mat-stroked-button type="submit" class="btn btn-primary" 
-      role="button" [disabled]="!userForm.form.valid">Search</button>
+      role="button" [disabled]="!userForm.form.valid || (dataSource?.filteredData.length > 0 && noRepoError && gotRepos) ">Search</button>
     </div>
+
+
     </form>
   </span>
 
-<div *ngIf="dataSource?.filteredData.length > 0 && noError ">
-  <mat-card  *ngFor="let repository of user.repositories; let i=index" class="repo-card" (click)="getRepoCommits(repository.name); !selection.isSelected(repository.name)? selection.toggle(repository.name) : false" [ngStyle]="{'border': selection.isSelected(repository.name)? '3px solid #2340d1':'none'}" >
+  <div class="reset-button-git-app" *ngIf="userForm.submitted">
+    <button mat-stroked-button type="reset"  
+    id="reset-btn" (click)="reset()">RESET</button>
+  </div>
+
+
+<div *ngIf="dataSource?.filteredData.length > 0 && noRepoError ">
+  <mat-card  *ngFor="let repository of user.repositories; let i=index" class="repo-card" (click)="!selection.isSelected(repository.name) ? getRepoCommits(repository.name) : false ; !selection.isSelected(repository.name) ? selection.toggle(repository.name) : false " [ngStyle]="{'border': selection.isSelected(repository.name)? '3px solid #2340d1':'none'}" >
       <mat-card-header>
         <mat-card-title>{{repository.name}}</mat-card-title>
         <mat-card-subtitle>by {{repository.ownerName}}</mat-card-subtitle>
@@ -38,18 +47,22 @@
 </div>
 
 </div>
-  <div *ngIf="!noError">
-      <span class="body-text-span">{{errorMessage}}</span>
-    </div>  
-    <div class ="table-container">
 
-    <div *ngIf="dataSource?.filteredData.length === 0 && noError" >
-      No repositories listed for user
-      </div>
-      <h1 *ngIf="commitDataSource?.filteredData.length > 0 && !notCommitTable">{{repositoryTitle}}</h1>
-      <div class="mat-elevation-z8" *ngIf="commitDataSource?.filteredData.length > 0 && !notCommitTable" >
-       <h1></h1>
-        <mat-toolbar><span class="underline-text">Commits </span> &#160; Branches   </mat-toolbar> 
+    <div class ="table-container">
+      
+      <mat-toolbar  *ngIf="!noRepoError && !repoSelected"><span class="error-text">{{errorMessage}}</span></mat-toolbar> 
+
+      <mat-toolbar  *ngIf="dataSource?.filteredData.length === 0 && noRepoError && gotRepos && !repoSelected">No repositories listed for user</mat-toolbar>
+
+      <h1 *ngIf="commitDataSource?.filteredData.length >= 0 && repoSelected" class="repo-header">{{repositoryTitle}}</h1>
+
+      <mat-toolbar class="selected-repo-header" *ngIf="commitDataSource?.filteredData.length >= 0 && repoSelected"><span class="underline-text">Commits </span> &#160; Branches   </mat-toolbar> 
+     
+      <mat-toolbar  *ngIf="repoSelected && !noCommitError "><span class="error-text">{{errorMessage}}</span></mat-toolbar> 
+     
+     
+      <div class="mat-elevation-z8" *ngIf="commitDataSource?.filteredData.length > 0 && repoSelected && noCommitError" >
+
         <mat-table #table [dataSource]="commitDataSource"  >
               
         <!-- Author Column -->
@@ -66,7 +79,7 @@
 
         <!-- Date Created Column -->
         <ng-container matColumnDef="created_at">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Date Created </mat-header-cell>
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
           <mat-cell mat-cell *matCellDef="let commit" > {{commit.created_at | date }}</mat-cell>
         </ng-container>
       

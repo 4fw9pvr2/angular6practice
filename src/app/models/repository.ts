@@ -5,10 +5,10 @@ import { Adapter } from './adapter';
 export class Repository {
 
     constructor(
-        public name:string,
-        public created_at:string,        
+        public name:string,       
         public ownerName:string,
-        public avatarUrl:string
+        public avatarUrl:string,
+        public created_at:Date = new Date(), 
       ) { }
 
 
@@ -22,9 +22,9 @@ export class RepositoryAdapter implements Adapter<Repository> {
   adapt(item: any): Repository {
     return new Repository(
         item.name,
-        item.created_at,
         item.owner.login,
-        item.owner.avatar_url
+        item.owner.avatar_url,
+        item.created_at,
     );
   }
 }

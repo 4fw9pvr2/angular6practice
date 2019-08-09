@@ -1,0 +1,31 @@
+<span class="body-text-span">
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm" class="form-userid-input-git-app">
+      <div class="user-input-git-app">
+        <mat-form-field appearance="outline">
+          <input matInput #input type="text" placeholder="userID" class="form-control" id="userID" 
+          required maxlength="39" pattern="^[a-zA-Z\d](?:[a-zA-Z\d]|-(?=[a-zA-Z\d])){0,38}$" [(ngModel)]="user.userID" name="userID" #userID="ngModel" >
+          <mat-icon matSuffix>person</mat-icon> 
+     
+        </mat-form-field>
+        <mat-error *ngIf="userID?.errors?.required && (userID.dirty || userID.touched)"> 
+          UserID is required.
+        </mat-error>
+        <mat-error *ngIf="userID.errors?.pattern && (userID.dirty || userID.touched)">
+          UserID may only contain alphanumeric characters or hyphens, 
+          cannot have multiple consecutive hyphens, 
+          and cannot begin or end with a hyphen.
+        </mat-error>  
+      </div>
+    <div class="search-button-git-app">
+      <button mat-stroked-button type="submit" class="btn btn-primary" 
+      role="button" [disabled]="!userForm.form.valid ">Search</button>
+    </div>
+
+
+    </form>
+  </span>
+
+  <div class="reset-button-git-app" *ngIf="userForm.submitted">
+    <button mat-stroked-button type="reset"  
+    id="reset-btn" (click)="reset()">RESET</button>
+  </div>

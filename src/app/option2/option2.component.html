@@ -1,52 +1,13 @@
 <div class="body-container">
   <div class ="repository-col">
-  <span class="body-text-span">
-    <form (ngSubmit)="onSubmit()" #userForm="ngForm" class="form-userid-input-git-app">
-      <div class="user-input-git-app">
-        <mat-form-field appearance="outline">
-          <input matInput #input type="text" placeholder="userID" class="form-control" id="userID" 
-          required maxlength="39" pattern="^[a-zA-Z\d](?:[a-zA-Z\d]|-(?=[a-zA-Z\d])){0,38}$" [(ngModel)]="user.userID" name="userID" #userID="ngModel" >
-          <mat-icon matSuffix>person</mat-icon> 
-     
-        </mat-form-field>
-        <mat-error *ngIf="userID?.errors?.required && (userID.dirty || userID.touched)"> 
-          UserID is required.
-        </mat-error>
-        <mat-error *ngIf="userID.errors?.pattern && (userID.dirty || userID.touched)">
-          UserID may only contain alphanumeric characters or hyphens, 
-          cannot have multiple consecutive hyphens, 
-          and cannot begin or end with a hyphen.
-        </mat-error>  
-      </div>
-    <div class="search-button-git-app">
-      <button mat-stroked-button type="submit" class="btn btn-primary" 
-      role="button" [disabled]="!userForm.form.valid ">Search</button>
+      <app-user-form  [user]="user" (submitForm)="submitForm()" (resetForm)="resetForm()" > </app-user-form>
+
+    <div *ngIf="dataSource?.filteredData.length > 0 && noRepoError ">
+      <app-repository-cards [user]="user" [selection]="selection" (toggleSelection)="toggleSelection($event)"
+        (getRepoTable)="getRepoTable($event)"></app-repository-cards>
     </div>
 
-
-    </form>
-  </span>
-
-  <div class="reset-button-git-app" *ngIf="userForm.submitted">
-    <button mat-stroked-button type="reset"  
-    id="reset-btn" (click)="reset()">RESET</button>
   </div>
-
-
-<div *ngIf="dataSource?.filteredData.length > 0 && noRepoError ">
-  <mat-card  *ngFor="let repository of user.repositories" class="repo-card" (click)="!selection.isSelected(repository.name) ? getRepoTable(repository.name) : false ; !selection.isSelected(repository.name) ? selection.toggle(repository.name) : false " [ngStyle]="{'border': selection.isSelected(repository.name)? '3px solid #2340d1':'none'}" >
-      <mat-card-header>
-        <mat-card-title>{{repository.name}}</mat-card-title>
-        <mat-card-subtitle>by {{repository.ownerName}}</mat-card-subtitle>
-
-      </mat-card-header>
-      
-        <img mat-card-avatar class="repo-card-image" [src]="repository.avatarUrl" alt="User Avatar">
-      
-  </mat-card>
-</div>
-
-</div>
 
     <div class ="table-container">
       
@@ -54,97 +15,25 @@
 
       <mat-toolbar  *ngIf="dataSource?.filteredData.length === 0 && noRepoError && gotRepos && !repoSelected">No repositories listed for user</mat-toolbar>
 
-      <h1 *ngIf=" commitDataSource?.filteredData.length >= 0 && repoSelected" class="repo-header">{{repositoryName}}</h1>
-
-      <mat-toolbar class="selected-repo-header" *ngIf=" commitDataSource?.filteredData.length >= 0 && repoSelected">
-        <span (click)="!tableSelection.isSelected('commit') ? getRepoCommits() : false ; !tableSelection.isSelected('commit') ? tableSelection.toggle('commit') : false " [ngStyle]="{'text-decoration': tableSelection.isSelected('commit')? 'underline':'none'}" >
-          Commits </span> &#160;    
-        <span (click)="!tableSelection.isSelected('branch') ? getRepoBranches() : false ; !tableSelection.isSelected('branch') ? tableSelection.toggle('branch') : false " [ngStyle]="{'text-decoration': tableSelection.isSelected('branch')? 'underline':'none'}" >
-          Branches </span>
+      <ng-container *ngIf=" commitDataSource?.filteredData.length >= 0 && repoSelected">
+      <app-repository-header [repositoryName]="repositoryName" [tableSelection]="tableSelection" (toggleTableSelection)="toggleTableSelection($event)">
+      </app-repository-header>
+      </ng-container>
+      
+      <mat-toolbar  *ngIf="repoSelected && (!noCommitError || !noBranchError )"><span class="error-text">{{errorMessage}}</span>
       </mat-toolbar> 
-      <mat-toolbar  *ngIf="repoSelected && (!noCommitError || !noBranchError )"><span class="error-text">{{errorMessage}}</span></mat-toolbar> 
      
-     
-      <div class="mat-elevation-z8" *ngIf="tableSelection.isSelected('branch') && branchDataSource?.filteredData.length > 0 && repoSelected && noBranchError" >
+      <ng-container *ngIf="tableSelection.isSelected('branch') && branchDataSource?.filteredData.length > 0 && repoSelected && noBranchError">
 
-        <mat-table #table [dataSource]="branchDataSource"  >
-              
-        <!-- Author Column -->
-        <ng-container matColumnDef="author">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Author </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let branch"> {{branch.branchDetails.name}} </mat-cell>
-        </ng-container>
+        <app-branch-table [branches]="branches"></app-branch-table>
 
-        <!-- Branch Name Column -->
-        <ng-container matColumnDef="branch_name">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Branch Name </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let branch"> {{branch.name}} </mat-cell>
-        </ng-container>
-        
-        
+      </ng-container>
+  
+      <ng-container *ngIf="tableSelection.isSelected('commit') && commits.length > 0 && repoSelected && noCommitError">
 
-        <!-- Message Column -->
-        <ng-container matColumnDef="message">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Message </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let branch" class="word-break"> {{branch.branchDetails.message | slice:0:100}} </mat-cell>
-        </ng-container>
+        <app-commit-table [commits]="commits"></app-commit-table>
 
-        <!-- Date Created Column -->
-        <ng-container matColumnDef="created_at">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let branch" > {{branch.branchDetails.created_at | date }}</mat-cell>
-        </ng-container>
-      
-        <!-- CommitID Column -->
-        <ng-container matColumnDef="commitID">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Commit </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let branch" > {{branch.branchID | slice:0:7}} </mat-cell>
-        </ng-container>
-      
-        <mat-header-row  *matHeaderRowDef="branchDisplayedColumns"></mat-header-row>
-        <mat-row  *matRowDef="let row; columns: branchDisplayedColumns;"></mat-row>
-      </mat-table>
-
-      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    </div>
-
-    <div class="mat-elevation-z8" *ngIf="tableSelection.isSelected('commit') && commitDataSource?.filteredData.length > 0 && repoSelected && noCommitError" >
-
-        <mat-table #table [dataSource]="commitDataSource"  >
-              
-        <!-- Author Column -->
-        <ng-container matColumnDef="author">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Author </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let commit"> {{commit.name}} </mat-cell>
-        </ng-container>
-      
-        <!-- Message Column -->
-        <ng-container matColumnDef="message">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Message </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let commit" class="word-break"> {{commit.message | slice:0:100}} </mat-cell>
-        </ng-container>
-
-        <!-- Date Created Column -->
-        <ng-container matColumnDef="created_at">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let commit" > {{commit.created_at | date }}</mat-cell>
-        </ng-container>
-      
-        <!-- CommitID Column -->
-        <ng-container matColumnDef="commitID">
-          <mat-header-cell mat-header-cell *matHeaderCellDef> Commit </mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let commit" > {{commit.commitID | slice:0:7}} </mat-cell>
-        </ng-container>
-      
-        <mat-header-row  *matHeaderRowDef="commitDisplayedColumns"></mat-header-row>
-        <mat-row  *matRowDef="let row; columns: commitDisplayedColumns;"></mat-row>
-      </mat-table>
-
-      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    </div>
-
-
-
+      </ng-container>
 
   </div>
 </div>

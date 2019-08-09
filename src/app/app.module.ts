@@ -19,6 +19,11 @@ import { Option3Component } from './option3/option3.component';
 import { Option4Component } from './option4/option4.component';
 import { Option5Component } from './option5/option5.component';
 import { Option6Component } from './option6/option6.component';
+import { CommitTableComponent } from './option2/commit-table.component';
+import { BranchTableComponent } from './option2/branch-table.component';
+import { RepositoryCardsComponent } from './option2/repository-cards.component';
+import { RepositoryHeaderComponent } from './option2/repository-header.component';
+import { UserFormComponent } from './option2/user-form.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +34,12 @@ import { Option6Component } from './option6/option6.component';
     Option3Component,
     Option4Component,
     Option5Component,
-    Option6Component
+    Option6Component,
+    CommitTableComponent,
+    BranchTableComponent,
+    RepositoryCardsComponent,
+    RepositoryHeaderComponent,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,

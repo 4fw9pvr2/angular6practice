@@ -1,0 +1,10 @@
+<mat-card  *ngFor="let repository of user.repositories" class="repo-card" (click)="!selection.isSelected(repository.name) ? onGetRepoTable(repository.name) : false ; !selection.isSelected(repository.name) ? onToggleSelection(repository.name) : false " [ngStyle]="{'border': selection.isSelected(repository.name)? '3px solid #2340d1':'none'}" >
+  <mat-card-header>
+    <mat-card-title>{{repository.name}}</mat-card-title>
+    <mat-card-subtitle>by {{repository.ownerName}}</mat-card-subtitle>
+
+  </mat-card-header>
+  
+    <img mat-card-avatar class="repo-card-image" [src]="repository.avatarUrl" alt="User Avatar">
+  
+</mat-card>

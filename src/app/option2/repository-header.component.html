@@ -1,0 +1,7 @@
+<h1 class="repo-header">{{repositoryName}}</h1>
+<mat-toolbar class="selected-repo-header" >
+  <span (click)="!tableSelection.isSelected('commit') ? onToggleTableSelection('commit') : false" [ngStyle]="{'text-decoration': tableSelection.isSelected('commit')? 'underline':'none'}" >
+    Commits </span> &#160;    
+  <span (click)="!tableSelection.isSelected('branch') ? onToggleTableSelection('branch') : false" [ngStyle]="{'text-decoration': tableSelection.isSelected('branch')? 'underline':'none'}" >
+    Branches </span>
+</mat-toolbar>

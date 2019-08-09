@@ -39,12 +39,17 @@ export class Option2Component implements OnInit {
     branches: Branch[] =[];
 
     
-    @ViewChild(NgForm) myForm: NgForm;
+    resetForm(){
 
-    
-   
+      this.reset();
+
+    }
  
+    submitForm(){
+      
+      this.onSubmit();
 
+    }
 
     onSubmit() { 
 
@@ -59,7 +64,6 @@ export class Option2Component implements OnInit {
     reset() { 
   
       this.cleanComponent();
-      this.myForm.resetForm();
 
     }
 
@@ -116,6 +120,10 @@ export class Option2Component implements OnInit {
   
   }
   
+
+
+
+
   getRepoTable(repository: string){
 
 
@@ -133,7 +141,27 @@ export class Option2Component implements OnInit {
       
   }
 
+  toggleSelection(repository: string){
 
+    this.selection.toggle(repository);
+
+  }
+
+  toggleTableSelection(tableType: string){
+
+    this.tableSelection.toggle(tableType);
+
+    if(tableType === 'commit'){
+
+      this.getRepoCommits();
+
+    }else{
+
+      this.getRepoBranches();
+
+    }
+
+  }
 
 
   getRepoCommits() {
@@ -147,9 +175,7 @@ export class Option2Component implements OnInit {
            * is inside a container that has an *ngIf that only renders 
            * when data is loaded
            */
-          this.commits = data;          
-          this.cdr.detectChanges();
-          this.commitDataSource.paginator = this.paginator;   
+          this.commits = data;     
 
         }, err => {
           
@@ -180,8 +206,6 @@ export class Option2Component implements OnInit {
               if(branchDetailsData.index === this.branches.length-1 ){
 
                 this.branchDataSource = new MatTableDataSource(this.branches);                
-                this.cdr.detectChanges();
-                this.branchDataSource.paginator = this.paginator;
 
               }
 
@@ -189,16 +213,16 @@ export class Option2Component implements OnInit {
               this.noBranchDetailsError = false;
               this.branches[i].branchDetails.created_at = new Date;   
               this.branches[i].branchDetails.message = "error";   
-              this.branches[i].branchDetails.name = "error";  
+              this.branches[i].branchDetails.name = "error"; 
+              if(i === this.branches.length-1 ){
+
+                this.branchDataSource = new MatTableDataSource(this.branches);                
+
+              } 
 
           });  
 
         }
-
-
- 
-
-             
 
       }, err => {
         this.noBranchError = false;

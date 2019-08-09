@@ -1,0 +1,42 @@
+<div class="mat-elevation-z8"  >
+
+  <mat-table #table [dataSource]="branchDataSource"  >
+        
+  <!-- Author Column -->
+  <ng-container matColumnDef="author">
+    <mat-header-cell mat-header-cell *matHeaderCellDef> Author </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let branch"> {{branch.branchDetails.name}} </mat-cell>
+  </ng-container>
+
+  <!-- Branch Name Column -->
+  <ng-container matColumnDef="branch_name">
+    <mat-header-cell mat-header-cell *matHeaderCellDef> Branch </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let branch"> {{branch.name}} </mat-cell>
+  </ng-container>
+  
+  
+
+  <!-- Message Column -->
+  <ng-container matColumnDef="message">
+    <mat-header-cell mat-header-cell *matHeaderCellDef> Message </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let branch" class="word-break"> {{branch.branchDetails.message | slice:0:100}} </mat-cell>
+  </ng-container>
+
+  <!-- Date Created Column -->
+  <ng-container matColumnDef="created_at">
+    <mat-header-cell mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let branch" > {{branch.branchDetails.created_at | date }}</mat-cell>
+  </ng-container>
+
+  <!-- CommitID Column -->
+  <ng-container matColumnDef="commitID">
+    <mat-header-cell mat-header-cell *matHeaderCellDef> Commit </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let branch" > {{branch.branchID | slice:0:7}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row  *matHeaderRowDef="branchDisplayedColumns"></mat-header-row>
+  <mat-row  *matRowDef="let row; columns: branchDisplayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
